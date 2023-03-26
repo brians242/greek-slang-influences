@@ -1,29 +1,47 @@
 import csv
 import re
 
-def sentence_splitter(input_file, output_file):
+def main(input_file):
     with open(input_file, 'r') as f:
-        with open(output_file, 'w', newline='') as out:
-            writer = csv.writer(out)
-            in_section = False
-            for line in f:
-                # Remove any base 10 numbers (decimals)
-                line = re.sub(r'\d+\.\d+|\d+', '', line)
-                # Remove leading and trailing whitespace and periods
-                line = line.strip().strip('.')
-                if '"' in line:
-                    # Start of a new section
-                    if not in_section:
-                        out.write('""\n')
-                        in_section = True
-                    # Add quotes around the line
-                    line = f'"{line}"'
-                else:
-                    # End of a section
-                    if in_section:
-                        out.write('""\n')
-                        in_section = False
-                out.write(line + '\n')
+        count = 0
+        sentence = ""
+        for line in f:
+            # Adds the line to curr sentence
+            sentence += line.strip() + " "
+            # Check if the sentence ends with a period
+            if re.search(r'(?<=\w)\.(?=\s|$)', sentence):
+                # Split the sentence as long as there is whitespace/end of line
+                sentence1 = re.findall(r'(.*?\.)(?=\s|$)', sentence)
+                for i in sentence1:
+                    # Remove any base 10 numbers (decimals)
+                    i = re.sub(r'\d+\.\d+|\d+', '', i)
+                    # Remove leading and trailing whitespace and periods
+                    i = i.strip().strip('.')
+                    if not i:
+                        continue
+                    # add to count for file names
+                    count += 1
+                    filename = f"{input_file.split('.')[0]}_{count}.csv"
+                    with open(filename, 'w', newline='') as out:
+                        writer = csv.writer(out)
+                        writer.writerow([i])
+                sentence = ""
+            else:
+                continue
+        # remaining text is reconsidered
+        if sentence:
+            # Remove any base 10 nums
+            sentence = re.sub(r'\d+\.\d+|\d+', '', sentence)
+            # Remove whitespace/periods
+            sentence = sentence.strip().strip('.')
+            if sentence:
+                # add to count for file names
+                count += 1
+                filename = f"{input_file.split('.')[0]}_{count}.csv"
+                with open(filename, 'w', newline='') as out:
+                    writer = csv.writer(out)
+                    writer.writerow([sentence])
 
-if __name__ == "__sentence_splitter__":
-    sentence_splitter("iliad.txt", "iliad_serpated.csv")
+# make sure the main function only runs in this program
+if __name__ == "__main__":
+    main("iliad.txt")
