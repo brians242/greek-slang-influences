@@ -8,14 +8,14 @@ def main(input_file):
         for line in f:
             # Adds the line to curr sentence
             sentence += line.strip() + " "
-            # Check if the sentence ends with a period
+            # check line for a period
             if re.search(r'(?<=\w)\.(?=\s|$)', sentence):
-                # Split the sentence as long as there is whitespace/end of line
+                # no clue
                 sentence1 = re.findall(r'(.*?\.)(?=\s|$)', sentence)
                 for i in sentence1:
-                    # Remove any base 10 numbers (decimals)
+                    # remove base 10
                     i = re.sub(r'\d+\.\d+|\d+', '', i)
-                    # Remove leading and trailing whitespace and periods
+                    # remove "" and periods
                     i = i.strip().strip('.')
                     if not i:
                         continue
@@ -30,9 +30,9 @@ def main(input_file):
                 continue
         # remaining text is reconsidered
         if sentence:
-            # Remove any base 10 nums
+            # same as above
             sentence = re.sub(r'\d+\.\d+|\d+', '', sentence)
-            # Remove whitespace/periods
+            # same as above
             sentence = sentence.strip().strip('.')
             if sentence:
                 # add to count for file names
@@ -44,4 +44,4 @@ def main(input_file):
 
 # make sure the main function only runs in this program
 if __name__ == "__main__":
-    main("iliad.txt")
+    main("book2.txt")
