@@ -1,8 +1,5 @@
-# Asdrp Big Data
+# Tracking Linguistic Evolution: Analyzing Informal Language Shifts in Classical and Contemporary Greek Texts Using Methods in Computational Linguistics
 
-Sentiment Analysis Project for Fall Term of 2022.
+The codebase for this research paper.
 
-## Goals: 
-
-1. Making sure to look at historical changes based off of slang shifts from original languages.
-2. Using those changes and other factors to predict the importance of slang/how it makes each dialect different.
+###### The major .ipynb file was done via Google Colab, then imported here, so some parts about mounting to a google drive directory may not apply if the subsequent file parts of the iliad and the other story are located.
